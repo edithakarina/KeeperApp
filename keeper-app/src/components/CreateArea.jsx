@@ -8,7 +8,7 @@ import Zoom from '@mui/material/Zoom';
 function CreateArea(props) {
   const [newNote, setNewNote] = useState({
     title: "",
-    content: ""
+    note: ""
   });
 
   const [hidden, setHidden] = useState(true);
@@ -21,26 +21,33 @@ function CreateArea(props) {
         [name]: value
       }
     });
-    console.log(newNote);
+    // console.log(newNote);
   }
 
-  function handleTextAreaClick(){
+  function handleTextAreaClick() {
     setHidden(false);
   }
+
+  function submitNote(event) {
+    props.addNote(newNote);
+    event.preventDefault();
+    setNewNote({
+      title: "",
+      note: ""
+    });
+  }
+
   return (
     <div>
       <form>
-        {hidden ? null: <input onChange={handleChange} name="title" placeholder="Title" />}
-        <textarea onClick={handleTextAreaClick} onChange={handleChange} name="content" placeholder="Take a note..." rows={hidden?1:3} />
+        {hidden ? null : <input onChange={handleChange} name="title" placeholder="Title" value={newNote.title}/>}
+        <textarea onClick={handleTextAreaClick} onChange={handleChange} name="note" placeholder="Take a note..." rows={hidden ? 1 : 3} value={newNote.note}/>
         <Zoom
           in={!hidden}
         >
-          <Fab className="fab" onClick={(event) => {
-          event.preventDefault();
-          props.addNote(newNote);
-        }}>
-          <AddIcon />
-        </Fab>
+          <Fab className="fab" onClick={submitNote}>
+            <AddIcon />
+          </Fab>
         </Zoom>
       </form>
     </div>

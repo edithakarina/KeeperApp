@@ -25,12 +25,24 @@ noteRouter.get("/", (req, res) => {
       res.status(500).send(err);
     } else {
       if (result.length > 0) {
-        console.log(result);
+        // console.log(result);
         res.status(200).send(result);
       } else {
         console.log("no notes yet");
         res.status(200).send([]);
       }
+    }
+  });
+});
+
+noteRouter.post("/delete/:id", (req,res)=>{
+  Note.deleteOne({_id:req.params.id}, function(err){
+    
+    if(err){
+      console.log(err);
+    }else{
+      console.log("successfully removed");
+      res.status(200).send("succesfully removed");
     }
   });
 });
